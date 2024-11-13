@@ -1,4 +1,4 @@
-"this function merger overlapping intervals"
+"this function merge overlapping intervals"
 array_of_intervals = [[6, 8], [1, 9], [2, 4], [4, 7]]
 
 def _merge_intervals(intervals):
@@ -25,8 +25,9 @@ def _merge_intervals(intervals):
                 intervals[i] = intervals[j]
                 intervals.remove(intervals[j])
                 i = -1
+                break
 
-            elif intervals[j][1] <= intervals[i][1] and intervals[i][0] <= intervals[j][1]:
+            if intervals[j][1] <= intervals[i][1] and intervals[i][0] <= intervals[j][1]:
                 if intervals[j][0] < intervals[i][0]:
                     intervals[i][0] = intervals[j][0]
                     intervals.remove(intervals[j])
@@ -35,10 +36,12 @@ def _merge_intervals(intervals):
 
                 intervals.remove(intervals[j])
                 i = -1
+                break
             j += 1
         i += 1
 
     return intervals
 
-intervals123 = _merge_intervals(array_of_intervals)
-print(intervals123)
+
+merged_Intervals = _merge_intervals(array_of_intervals)
+print(merged_Intervals)
