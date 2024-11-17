@@ -1,47 +1,16 @@
-"this function merge overlapping intervals"
-array_of_intervals = [[6, 8], [1, 9], [2, 4], [4, 7]]
+"overlapping Intervals"
 
-def _merge_intervals(intervals):
-    for i in range(len(intervals)-1):
-        for j in range(len(intervals)-1):
-            if intervals[j][0] > intervals[j+1][0]:
-                temp = intervals[j+1]
-                intervals[j+1] = intervals[j]
-                intervals[j] = temp
+def _merge_intervals(intervals_array):
+    intervals_array.sort()
 
-    i = 0
-    while i < len(intervals):
-        j = i+1
-        while j < len(intervals):
+    merged_array = [intervals_array[0]]
 
-            # check if their is overlapping set the new array and remove the unwanted inex
-            if intervals[j][0] <= intervals[i][1] and intervals[i][1] <= intervals[j][1]:
-                if intervals[i][0] < intervals[j][0]:
-                    intervals[i][1] = intervals[j][1]
-                    intervals.remove(intervals[j])
-                    i = -1
-                    break
+    for current in intervals_array[1:]:
+        last_merged = merged_array[-1]
 
-                intervals[i] = intervals[j]
-                intervals.remove(intervals[j])
-                i = -1
-                break
+        if current[0] <= last_merged[1]:
+            last_merged[1] = max(last_merged[1], current[1])
+        else:
+            merged_array.append(current)
 
-            if intervals[j][1] <= intervals[i][1] and intervals[i][0] <= intervals[j][1]:
-                if intervals[j][0] < intervals[i][0]:
-                    intervals[i][0] = intervals[j][0]
-                    intervals.remove(intervals[j])
-                    i = -1
-                    break
-
-                intervals.remove(intervals[j])
-                i = -1
-                break
-            j += 1
-        i += 1
-
-    return intervals
-
-
-merged_Intervals = _merge_intervals(array_of_intervals)
-print(merged_Intervals)
+    return merged_array
